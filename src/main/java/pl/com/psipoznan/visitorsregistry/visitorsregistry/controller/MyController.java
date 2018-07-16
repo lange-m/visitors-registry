@@ -18,4 +18,10 @@ public class MyController {
 		model.addAttribute("message", "Hello Spring MVC 5!");
 		return "index";
 	}
+	
+	@GetMapping("/login")
+	public String login() {
+
+		return "login";
+	}
 }
