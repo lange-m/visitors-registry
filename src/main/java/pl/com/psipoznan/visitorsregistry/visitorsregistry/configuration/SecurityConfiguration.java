@@ -7,13 +7,18 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import pl.com.psipoznan.visitorsregistry.visitorsregistry.view.LoggingAccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
  
+	@Autowired
+    private LoggingAccessDeniedHandler accessDeniedHandler;
+	
     /**
      * Zalozenie domyslnych uzytkownikow kazdorazowo przy starcie aplikacji
      * podczas inicjacji kontekstu SpringSecurity 
@@ -43,17 +48,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 */
 		http
         .authorizeRequests()
-        .antMatchers("/VAADIN/**","/console/*","/ws/**", "/h2_console/**", "/PUSH/**", "/UIDL/**", "/error/**", "/accessDenied/**", "/vaadinServlet/**").permitAll()
-        .antMatchers("/login*").anonymous()
-        .anyRequest().authenticated()
+        	.antMatchers("/error/**", "/accessDenied/**","/js/**","/css/**","/img/**","/webjars/**","/static/**", "/resources/**","/webapp/**").permitAll()
+        	.antMatchers("/login*").anonymous()
+        	.antMatchers("/secured/**").hasRole("ADMIN")
+        	.anyRequest().authenticated()
         .and()
         .formLogin()
-        .loginPage("/login.html")
-        .loginProcessingUrl("/perform_login")
-        .defaultSuccessUrl("/index.html")
-        .failureUrl("/login.html")
+        	.loginPage("/login")
+        	.permitAll()
         .and()
-        .logout().logoutSuccessUrl("/login.html");
+        .logout()
+        	.invalidateHttpSession(true)
+        	.clearAuthentication(true)
+        	.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        	.logoutSuccessUrl("/login?logout")
+        	.permitAll()
+        .and()
+        .exceptionHandling()
+        	.accessDeniedHandler(accessDeniedHandler);
 	}
     
     /**

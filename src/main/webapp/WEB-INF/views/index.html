@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
 <head>
-<meta charset="ISO-8859-1">
-
-<title>Hello from Spring</title>
+    <title>Index</title>
 </head>
 <body>
-   <h1>Spring MVC + Thymeleaf  Hello World</h1>
-   <p th:text="${message}"></p>
+<div layout:fragment="content" th:remove="tag">
+    <h1>!! -=Hello Spring Security=- !!</h1>
+    <p>Strona dostêpna dla wszystkich. Po zalogowaniu, mo¿na dostaæ siê do reszty :)</p>
+    <ul>
+        <li>Nawiguj do: <a href="/secured" th:href="@{/secured}">secured pages</a></li>
+    </ul>
+</div>
 </body>
 </html>

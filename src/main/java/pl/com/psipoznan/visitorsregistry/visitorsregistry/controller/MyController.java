@@ -13,15 +13,22 @@ public class MyController {
 	 * w tym przypadku widok jest dostepny z poziomu localhost:8080/
 	 */
 	@GetMapping("/")
-	public String index(Model model) {
-
-		model.addAttribute("message", "Hello Spring MVC 5!");
+	public String root() {
 		return "index";
 	}
 	
+	@GetMapping("/secured")
+    public String securedIndex() {
+        return "secured/index";
+    }
+	
 	@GetMapping("/login")
 	public String login() {
-
-		return "login";
+		return "login/login";
 	}
+	
+	@GetMapping("/access-denied")
+    public String accessDenied() {
+        return "/error/access-denied";
+    }
 }

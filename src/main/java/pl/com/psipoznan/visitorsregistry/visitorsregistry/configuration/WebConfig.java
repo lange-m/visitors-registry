@@ -6,11 +6,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templatemode.TemplateMode;
+
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
 @EnableWebMvc
@@ -30,6 +35,9 @@ public class WebConfig implements WebMvcConfigurer {
 		templateResolver.setApplicationContext(applicationContext);
 		templateResolver.setPrefix("/WEB-INF/views/");
 		templateResolver.setSuffix(".html");
+		templateResolver.setTemplateMode(TemplateMode.HTML);
+		templateResolver.setCharacterEncoding("UTF-8");
+		templateResolver.setCacheable(false);
 		return templateResolver;
 	}
 	
@@ -41,6 +49,8 @@ public class WebConfig implements WebMvcConfigurer {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
 		templateEngine.setEnableSpringELCompiler(true);
+		templateEngine.addDialect(new LayoutDialect());
+ 
 		return templateEngine;
 	}
 	
@@ -51,6 +61,19 @@ public class WebConfig implements WebMvcConfigurer {
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 		resolver.setTemplateEngine(templateEngine());
+		resolver.setCharacterEncoding("UTF-8");
+		resolver.setCache(false);
 		registry.viewResolver(resolver);
 	}
+	
+	@Bean
+	public LayoutDialect layoutDialect() {
+	    return new LayoutDialect();
+	}
+	
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
 }
