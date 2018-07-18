@@ -35,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
 		templateResolver.setPrefix("/WEB-INF/views/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode(TemplateMode.HTML);
-		templateResolver.setCharacterEncoding("ISO-8859-1");
+		templateResolver.setCharacterEncoding("cp1250");
 		templateResolver.setCacheable(false);
 		return templateResolver;
 	}
