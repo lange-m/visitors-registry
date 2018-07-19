@@ -12,7 +12,7 @@ public class MyController {
 	 * mapuje widok do podanej w adnotacji sciezki
 	 * w tym przypadku widok jest dostepny z poziomu localhost:8080/
 	 */
-	@GetMapping("/")
+	@GetMapping("/home")
 	public String root() {
 		return "index";
 	}

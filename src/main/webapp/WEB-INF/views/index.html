@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content" th:remove="tag">
     <h1>!! -=Hello Spring Security=- !!</h1>
-    <p>Strona dostêpna dla wszystkich. Po zalogowaniu, mo¿na dostaæ siê do reszty :)</p>
+    <p sec:authorize="isAuthenticated()">Strona dostêpna dla wszystkich. Po zalogowaniu, mo¿na dostaæ siê do reszty :)</p>
     <ul>
         <li>Nawiguj do: <a href="/secured" th:href="@{/secured}">secured pages</a></li>
     </ul>

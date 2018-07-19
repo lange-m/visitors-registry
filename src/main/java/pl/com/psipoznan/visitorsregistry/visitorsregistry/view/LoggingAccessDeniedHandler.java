@@ -12,7 +12,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+/**
+ * logowanie nieautoryzowanych prob wtargniecia w zastrzezone widoki
+ * @author a
+ *
+ */
 @Component
 public class LoggingAccessDeniedHandler implements AccessDeniedHandler {
 
