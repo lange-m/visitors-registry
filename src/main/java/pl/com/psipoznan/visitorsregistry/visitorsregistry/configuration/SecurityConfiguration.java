@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
         .authorizeRequests()
         // adresy dopuszczone bez logowania
-        	.antMatchers("/error/**", "/accessDenied/**","/js/**","/css/**","/img/**","/webjars/**","/static/**", "/resources/**","/webapp/**").permitAll()
+        	.antMatchers("/error/**", "/accessDenied/**","/js/**","/css/**","/img/**","/webjars/**","/static/**", "/resources/**","/webapp/**","/h2_console/**").permitAll()
         	.antMatchers("/login*").anonymous()
         	//do widokow spod secured tylko rola admin
         	.antMatchers("/secured/**").hasRole("ADMIN")
