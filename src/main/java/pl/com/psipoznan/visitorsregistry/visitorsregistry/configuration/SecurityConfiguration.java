@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.antMatchers("/login*").anonymous()
         	//do widokow spod secured tylko rola admin
         	.antMatchers("/secured/**").hasRole("ADMIN")
-        	.antMatchers("/home").permitAll()
+        	.antMatchers("/**").permitAll()
         	.anyRequest().authenticated()
         .and()
         .formLogin()

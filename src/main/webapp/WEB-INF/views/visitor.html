@@ -10,23 +10,23 @@
 	<div class="row">
 		<h1>Witamy!</h1>
 		<h2>Zarejestruj wejœcie</h2>
-		<form th:action="@{register}" method="post">
+		<form th:action="@{/saveVisitor}" th:object = "${Visitor}" method="post">
 			<div th:if="${param.error}">
 				<div class="alert alert-danger">
 					Nale¿y wype³niæ wszystkie pola.
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="name">Imiê i nazwisko...</label>:
+				<label for="name">Imiê i nazwisko:</label>:
 				<input type="text"
 					   id="name"
 					   name="name"
 					   class="form-control"
 					   autofocus="autofocus"
-					   placeholder="Imiê i nazwisko">
+					   placeholder="Imiê i nazwisko...">
 			</div>
 			<div class="form-group">
-				<label for="company">Firma</label>:
+				<label for="company">Firma:</label>:
 				<input type="text"
 					   id="company"
 					   name="company"
@@ -36,7 +36,7 @@
 			</div>
 			<div class="form-group">
             	<div class="row">
-                	<div class="col-sm-6 col-sm-offset-4">
+                	<div class="col-sm-6 col-sm-offset-3">
                         <input type="submit"
                                name="register-submit"
                                id="register-submit"
