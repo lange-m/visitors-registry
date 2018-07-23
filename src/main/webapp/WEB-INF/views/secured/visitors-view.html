@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Lista odwiedzaj¹cych</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <div class="container">
+  <h1>Lista odwiedzaj¹cych</h1>
+  <p>Kompletny podgl¹d dostêpny dla admina</p>            
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nazwisko</th>
+        <th>Firma</th>
+        <th>Kiedy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="visitor : ${visitors}">
+        <td th:text="${visitor.name}">Nazwisko...</td>
+        <td th:text="${visitor.company}">Firma...</td>
+        <td th:text="${visitor.enter}">Kiedy...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+</body>
+</html>

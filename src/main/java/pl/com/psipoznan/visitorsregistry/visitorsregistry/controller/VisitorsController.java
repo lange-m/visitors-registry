@@ -31,4 +31,9 @@ public class VisitorsController {
 		
 		return "visitor";
 	}
+	@GetMapping("/secured/visitors-view")
+    public String messages(Model model) {
+        model.addAttribute("visitors", visitorRepo.findAll());
+        return "secured/visitors-view";
+    }
 }
