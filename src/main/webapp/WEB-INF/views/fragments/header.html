@@ -19,7 +19,7 @@
                     <li class="active">
                         <a th:href="@{/}">Home</a>
                     </li>
-                    <li class="active">
+                    <li class="active" sec:authorize="isAnonymous()">
                         <a th:href="@{/login}">Zaloguj</a>
                     </li>
                     <li class="active">

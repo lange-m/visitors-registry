@@ -7,7 +7,7 @@
             <p>
                 &copy; Projektowanie Systemów Informatycznych
                 <span sec:authorize="isAuthenticated()" style="display: inline-block;">
-                    | Zalogowany user: <span sec:authentication="name"></span> |
+                    | Zalogowany u¿ytkownik: <span sec:authentication="name"></span> |
                     Role: <span sec:authentication="principal.authorities"></span> |
                     <a th:href="@{/logout}">Wyloguj</a>
                 </span>

@@ -1,6 +1,7 @@
 package pl.com.psipoznan.visitorsregistry.visitorsregistry.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,16 +18,16 @@ public class Visitor {
 	private long id;
 	private String name;
 	private String company;
-	private LocalDate enter;
-	private LocalDate exit;
-	private long ticket;
+	private LocalDateTime enter;
+	private LocalDateTime exit;
+	private String ticket;
 	
 	public Visitor() {}
 	
 	public Visitor(String name, String company) {
 		this.name = name;
 		this.company = company;
-		this.enter = LocalDate.now();
+		this.enter = LocalDateTime.now();
 	}
 	
 	public long getId() {
@@ -47,22 +48,22 @@ public class Visitor {
 	public void setCompany(String company) {
 		this.company = company;
 	}
-	public LocalDate getEnter() {
+	public LocalDateTime getEnter() {
 		return enter;
 	}
-	public void setEnter(LocalDate enter) {
+	public void setEnter(LocalDateTime enter) {
 		this.enter = enter;
 	}
-	public LocalDate getExit() {
+	public LocalDateTime getExit() {
 		return exit;
 	}
-	public void setExit(LocalDate exit) {
+	public void setExit(LocalDateTime exit) {
 		this.exit = exit;
 	}
-	public long getTicket() {
+	public String getTicket() {
 		return ticket;
 	}
-	public void setTicket(long ticket) {
+	public void setTicket(String ticket) {
 		this.ticket = ticket;
 	}
 }
