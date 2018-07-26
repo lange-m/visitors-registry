@@ -15,14 +15,18 @@
       <tr>
         <th>Nazwisko</th>
         <th>Firma</th>
+        <th>Identyfikator</th>
         <th>Wejœcie</th>
+        <th>Wyjœcie</th>
       </tr>
     </thead>
     <tbody>
       <tr th:each="visitor : ${visitors}">
         <td th:text="${visitor.name}">Nazwisko...</td>
         <td th:text="${visitor.company}">Firma...</td>
-        <td th:text="${visitor.enter}">Kiedy...</td>
+        <td th:text="${visitor.ticket}">Identyfikator...</td>
+        <td th:text="${visitor.enter}">Wejœcie...</td>
+        <td th:text="${visitor.exit}">Wyjœcie...</td>
       </tr>
     </tbody>
   </table>

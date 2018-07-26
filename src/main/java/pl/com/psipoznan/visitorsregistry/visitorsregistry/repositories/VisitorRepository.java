@@ -12,7 +12,7 @@ public interface VisitorRepository extends JpaRepository<Visitor, Long> {
 	
 	List<Visitor> findAll();
 	Visitor findByName(String name);
-	Visitor findByTicket(long ticket);
+	Visitor findByTicket(String ticket);
 	Visitor findByCompany(String company);
 
 }

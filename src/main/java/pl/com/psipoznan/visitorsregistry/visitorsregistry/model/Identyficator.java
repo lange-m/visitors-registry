@@ -14,7 +14,7 @@ public class Identyficator {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String key;
-	private String lastUserId;
+	private Long lastUserId;
 	private boolean active;
 	private boolean deleted;
 	
@@ -38,11 +38,11 @@ public class Identyficator {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public String getLastUserId() {
+	public Long getLastUserId() {
 		return lastUserId;
 	}
-	public void setLastUserId(String lastUserId) {
-		this.lastUserId = lastUserId;
+	public void setLastUserId(Long l) {
+		this.lastUserId = l;
 	}
 	public boolean isActive() {
 		return active;

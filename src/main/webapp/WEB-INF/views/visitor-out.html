@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Wyjœcie</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1>PotwierdŸ wyjœcie</h1>
+            <form th:action="@{/end-visit}" th:object = "${String}" method="post">
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">
+                        Niepoprawny identyfikator
+                    </div>
+                </div>
+                <div th:if="${param.logout}">
+                    <div class="alert alert-info">
+                        Zarejestrowano wyjœcie i zwrócono identyfikator
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username">Identyfikator</label>:
+                    <input type="text"
+                           id="identyf"
+                           name="identyf"
+                           class="form-control"
+                           autofocus="autofocus"
+                           placeholder="Identyfikator">
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <input type="submit"
+                                   name="login-submit"
+                                   id="login-submit"
+                                   class="form-control btn btn-info"
+                                   value="PotwierdŸ">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <p><a href="/" th:href="@{/}">Powrót do strony g³ównej</a></p>
+
+</div>
+</body>
+</html>
