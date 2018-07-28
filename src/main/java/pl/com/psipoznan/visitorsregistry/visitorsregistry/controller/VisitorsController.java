@@ -1,8 +1,12 @@
 package pl.com.psipoznan.visitorsregistry.visitorsregistry.controller;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +26,7 @@ public class VisitorsController {
 	private VisitorRepository visitorRepo;
 	@Autowired
 	private IdentyficatorRepository identyfRepo;
-
+	
 	@GetMapping("/register")
 	public String register(Model model) {
 		model.addAttribute("register", new Visitor());
@@ -34,7 +38,24 @@ public class VisitorsController {
 		
 		Visitor visitor = new Visitor(v.getName(), v.getCompany());
 		
-		Identyficator identyf = identyfRepo.findFirstByActiveAndDeleted(false, false);
+		String like = "";
+		
+		Collection<SimpleGrantedAuthority> authorities = 
+				(Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		
+		if (authorities
+				.stream().filter(authority -> authority.getAuthority().equals("ROLE_USER_B"))
+				.findFirst().isPresent()) {
+			like = "B%";
+		} else if (authorities
+				.stream().filter(authority -> authority.getAuthority().equals("ROLE_USER_A"))
+				.findFirst().isPresent()) {
+			like = "A%";
+		}
+		
+		System.out.println(like);
+		
+		Identyficator identyf = identyfRepo.findFirstByActiveAndDeletedAndKeyLike(false, false, like);
 		visitor.setTicket(identyf.getKey());
 		identyf.setActive(true);
 		identyfRepo.saveAndFlush(identyf);
@@ -55,6 +76,17 @@ public class VisitorsController {
 		return "visitor-out";
 	}
 	
+	@GetMapping("/generate")
+	public String genIdentyf() {
+		for (int i = 1 ; i <= 25 ; i++) {
+			Identyficator identyfA = new Identyficator(i < 10 ? "A0"+i : "A"+i);
+			Identyficator identyfB = new Identyficator(i < 10 ? "B0"+i : "B"+i);
+			identyfRepo.saveAndFlush(identyfA);
+			identyfRepo.saveAndFlush(identyfB);
+		}
+		return "visitor";
+	}
+
 	@PostMapping("/end-visit")
 	public String endVisit(@RequestParam String identyf) {
 		System.out.println(identyf);
@@ -65,6 +97,7 @@ public class VisitorsController {
 		visitor.setTicket(null);
 		
 		identyficator.setLastUserId(visitor.getId());
+		identyficator.setActive(false);
 		visitorRepo.saveAndFlush(visitor);
 		identyfRepo.saveAndFlush(identyficator);
 		

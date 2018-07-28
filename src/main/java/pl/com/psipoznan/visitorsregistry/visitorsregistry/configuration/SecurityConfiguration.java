@@ -33,7 +33,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .inMemoryAuthentication()
           .withUser("user").password(passwordEncoder().encode("1234")).roles("USER")
           .and()
-          .withUser("admin").password(passwordEncoder().encode("1234")).roles("ADMIN");
+          .withUser("admin").password(passwordEncoder().encode("1234")).roles("ADMIN")
+          .and()
+          .withUser("userA").password(passwordEncoder().encode("1234")).roles("USER_A")
+          .and()
+          .withUser("userB").password(passwordEncoder().encode("1234")).roles("USER_B");
     }
     
     @Override
@@ -53,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.antMatchers("/login*").anonymous()
         	//do widokow spod secured tylko rola admin
         	.antMatchers("/secured/**").hasRole("ADMIN")
+        	.antMatchers("/register/**","/visitor/**", "/visitor-out/**").hasAnyRole("USER_A", "USER_B","ADMIN")
         	.antMatchers("/**").permitAll()
         	.anyRequest().authenticated()
         .and()
