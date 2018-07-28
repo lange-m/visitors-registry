@@ -44,6 +44,14 @@ public class VisitorsController {
 		
 		return "visitor";
 	}
+	@GetMapping("/generate")
+	 public String genIdentyf() {
+	  for (int i = 1 ; i <= 50 ; i++) {
+	   Identyficator identyf = new Identyficator(i < 10 ? "A0"+i : "A"+i);
+	   identyfRepo.saveAndFlush(identyf);
+	  }
+	  return "index";
+	 }
 	@GetMapping("/secured/visitors-view")
     public String messages(Model model) {
         model.addAttribute("visitors", visitorRepo.findAll());
