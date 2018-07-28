@@ -12,6 +12,7 @@ public interface IdentyficatorRepository extends JpaRepository<Identyficator, Lo
 
 	Identyficator findByKey(String key);
 	Identyficator findFirstByActiveAndDeleted(boolean active, boolean deleted);
+	Identyficator findFirstByActiveAndDeletedAndKeyLike(boolean active, boolean deleted, String key);
 	List<Identyficator> findAll();
 	List<Identyficator> findByActive(boolean active);
 	List<Identyficator> findByDeleted(boolean deleted);

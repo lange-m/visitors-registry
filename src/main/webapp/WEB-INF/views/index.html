@@ -7,11 +7,14 @@
 </head>
 <body>
 <div layout:fragment="content" th:remove="tag">
-    <h1>!! -=Hello Spring Security=- !!</h1>
-    <p sec:authorize="isAuthenticated()">Strona dostêpna dla wszystkich. Po zalogowaniu, mo¿na dostaæ siê do reszty :)</p>
-    <ul>
-        <li>Nawiguj do: <a href="/secured" th:href="@{/secured}">secured pages</a></li>
-    </ul>
+	<div class="row">
+        <div class="col-md-3">
+            <a th:href="register" class="btn btn-primary btn-lg btn-block btn-huge">Wejœcie</a>
+        </div>
+        <div class="col-md-3">
+            <a th:href="visitor-out" class="btn btn-primary btn-lg btn-block btn-huge">Wyjœcie</a>
+        </div>
+	</div>
 </div>
 </body>
 </html>
