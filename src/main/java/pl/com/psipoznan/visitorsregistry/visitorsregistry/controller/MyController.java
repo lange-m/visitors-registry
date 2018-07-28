@@ -2,16 +2,19 @@ package pl.com.psipoznan.visitorsregistry.visitorsregistry.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MyController {
 
-	/**
-	 * kontroler dla index.html 
-	 * mapuje widok do podanej w adnotacji sciezki
-	 * w tym przypadku widok jest dostepny z poziomu localhost:8080/
-	 */
-	@GetMapping("/")
+
+	@RequestMapping("/home")
+	public ModelAndView home() {
+		return new ModelAndView("redirect:/");
+	}
+	
+	@RequestMapping("/")
 	public String root() {
 		return "index";
 	}

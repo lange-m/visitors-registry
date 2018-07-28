@@ -10,29 +10,24 @@
         			<span class="icon-bar"></span>
         			<span class="icon-bar"></span> 
       			</button>
-                <a class="navbar-brand" th:href="@{/register}">
+                <a class="navbar-brand" th:href="@{/}">
                     <!-- <img th:src="@{/img/logo.png}" alt="nie ma obrazka"/> -->
                 	Recepcja
                 </a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a th:href="@{/register}">Wejdz</a>
-                    </li>
-                    <li class="active">
-                        <a th:href="@{/visitor-out}">Wyjœcie</a>
-                    </li>
-                    <li class="dropdown" sec:authorize="isAuthenticated()">
+                    <li class="dropdown" sec:authorize="hasRole('ADMIN')">
         				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin
         				<span class="caret"></span></a>
         				<ul class="dropdown-menu">
           					<li><a th:href="@{/secured/visitors-view}">Lista odwiedzin</a></li>
+          					<li><a th:href="@{/secured/visitors-view}">Lista identyfikatorów</a></li>
         				</ul>
       				</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-      				<li sec:authorize="isAuthenticated()">
+      				<li sec:authorize="hasRole('ADMIN')">
       					<a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span></a>
       				</li>
       				<li sec:authorize="isAnonymous()">

@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <h1>Zaloguj siê</h1>
-            <form th:action="@{/login}" method="post">
+            <form th:action="@{/login}" method="post" autocomplete="off">
                 <div th:if="${param.error}">
                     <div class="alert alert-danger">
                         B³êdny login lub has³o
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <p><a href="/home" th:href="@{/register}">Powrót do strony g³ównej</a></p>
+    <p><a href="/" th:href="@{/}">Powrót do strony g³ównej</a></p>
 
 </div>
 </body>

@@ -58,12 +58,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	//do widokow spod secured tylko rola admin
         	.antMatchers("/secured/**").hasRole("ADMIN")
         	.antMatchers("/register/**","/visitor/**", "/visitor-out/**").hasAnyRole("USER_A", "USER_B","ADMIN")
-        	.antMatchers("/**").permitAll()
         	.anyRequest().authenticated()
         .and()
         .formLogin()
         	//przysloneta domyslna strona logowania (bo wyglada paskudnie)
         	.loginPage("/login")
+        	.successForwardUrl("/home")
         	.permitAll()
         .and()
         .logout()

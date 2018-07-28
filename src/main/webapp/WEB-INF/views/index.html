@@ -6,15 +6,23 @@
     <title>Index</title>
 </head>
 <body>
-<div layout:fragment="content" th:remove="tag">
-	<div class="row">
-        <div class="col-md-3">
-            <a th:href="register" class="btn btn-primary btn-lg btn-block btn-huge">Wejœcie</a>
-        </div>
-        <div class="col-md-3">
-            <a th:href="visitor-out" class="btn btn-primary btn-lg btn-block btn-huge">Wyjœcie</a>
-        </div>
+	<div layout:fragment="content" th:remove="tag">
+		<div class="row text-center">
+			<div class=" w-25 p-3" style="margin-top: 5%;">
+				<a th:href="@{/register}" 
+				   class="btn btn-success btn-lg" 
+				   role="button" 
+				   aria-disabled="true"
+				   style="width:60%; margin: 10px; padding: 30px 0;">Wejœcie</a>
+			</div>
+			<div class=" w-25 p-3" style=" margin-bottom: 5%;">
+				<a th:href="@{/visitor-out}" 
+				   class="btn btn-success btn-lg" 
+				   role="button" 
+				   aria-disabled="true"
+				   style="width:60%; margin: 10px; padding: 30px 0;">Wyjœcie</a>
+			</div>
+		</div>
 	</div>
-</div>
 </body>
 </html>

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.model.Identyficator;
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.model.Visitor;
@@ -34,7 +35,7 @@ public class VisitorsController {
 	}
 	
 	@PostMapping("/saveVisitor")
-	public String registerSubmit(@ModelAttribute Visitor v) {
+	public String registerSubmit(@ModelAttribute Visitor v, Model model) {
 		
 		Visitor visitor = new Visitor(v.getName(), v.getCompany());
 		
@@ -63,8 +64,12 @@ public class VisitorsController {
 				+ " o: " + visitor.getEnter() + " identyf: " + visitor.getTicket());
 		visitorRepo.saveAndFlush(visitor);
 		
+		model.addAttribute("ticket", visitor.getTicket());
+		model.addAttribute("registered", true);
+		
 		return "visitor";
 	}
+	
 	@GetMapping("/secured/visitors-view")
     public String messages(Model model) {
         model.addAttribute("visitors", visitorRepo.findAll());
@@ -102,5 +107,24 @@ public class VisitorsController {
 		identyfRepo.saveAndFlush(identyficator);
 		
 		return "visitor";
+	}
+	
+	@RequestMapping(value="/end-visit-by-admin")
+	public ModelAndView endVisitByAdmin(@RequestParam String identyf) {
+		
+		System.out.println(identyf);
+		
+		Identyficator identyficator = identyfRepo.findByKey(identyf);
+		Visitor visitor = visitorRepo.findByTicket(identyf);
+		
+		visitor.setExit(LocalDateTime.now());
+		visitor.setTicket(null);
+		
+		identyficator.setLastUserId(visitor.getId());
+		identyficator.setActive(false);
+		visitorRepo.saveAndFlush(visitor);
+		identyfRepo.saveAndFlush(identyficator);
+		
+		return new ModelAndView("redirect:/secured/visitors-view");
 	}
 }

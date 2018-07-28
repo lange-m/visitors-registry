@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <h1>PotwierdŸ wyjœcie</h1>
-            <form th:action="@{/end-visit}" th:object = "${String}" method="post">
+            <form th:action="@{/end-visit}" autocomplete="off" th:object = "${String}" method="post">
                 <div th:if="${param.error}">
                     <div class="alert alert-danger">
                         Niepoprawny identyfikator
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <p><a href="/" th:href="@{/register}">Powrót do strony g³ównej</a></p>
+    <p><a href="/" th:href="@{/}">Powrót do strony g³ównej</a></p>
 
 </div>
 </body>
