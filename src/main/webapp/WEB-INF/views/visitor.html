@@ -34,9 +34,9 @@
 		<h1>Witamy!</h1>
 		<h2>Zarejestruj wejœcie</h2>
 		<form th:action="@{/saveVisitor}" th:object = "${Visitor}" autocomplete="off" method="post">
-			<div th:if="${param.error}">
+			<div th:if="${noIdentyf}">
 				<div class="alert alert-danger">
-					Nale¿y wype³niæ wszystkie pola.
+					Brak identyfikatorów do wydania, skontaktuj siê z recepcj¹.
 				</div>
 			</div>
 			<div th:if="${registered}">

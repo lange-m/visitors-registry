@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Lista identyfikatorów</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <div class="container">
+  <h1>Lista identyfikatorów</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Identyfikator</th>
+        <th>Ostatni odwiedzaj¹cy</th>
+        <th>Aktywny</th>
+        <th>Usuniêty</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="identyficator : ${identyficators}">
+        <td th:text="${identyficator.key}">Identyfikator...</td>
+        <td th:text="${identyficator.lastUserId}">Ostatni odwiedzaj¹cy...</td>
+        <td >
+        	<span th:if="${identyficator.active == true}" class = "glyphicon glyphicon-ok"></span>
+        	<span th:if="${identyficator.active == false}" class = "glyphicon glyphicon-remove"></span>
+        </td>
+        <td >
+        	<span th:if="${identyficator.deleted == true}" class = "glyphicon glyphicon-ok"></span>
+        	<span th:if="${identyficator.deleted == false}" class = "glyphicon glyphicon-remove"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+</body>
+</html>

@@ -1,7 +1,10 @@
 package pl.com.psipoznan.visitorsregistry.visitorsregistry.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collection;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +26,7 @@ import pl.com.psipoznan.visitorsregistry.visitorsregistry.model.Visitor;
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.repositories.IdentyficatorRepository;
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.repositories.RememberedVisitorRepository;
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.repositories.VisitorRepository;
+import pl.com.psipoznan.visitorsregistry.visitorsregistry.tools.excel.ExcelGenerator;
 
 @Controller
 public class VisitorsController {
@@ -79,6 +85,11 @@ public class VisitorsController {
 		}
 		
 		Identyficator identyf = identyfRepo.findFirstByActiveAndDeletedAndKeyLike(false, false, like);
+		if (identyf == null) {
+			model.addAttribute("noIdentyf", true);
+			return "visitor";
+		}
+		
 		visitor.setTicket(identyf.getKey());
 		identyf.setActive(true);
 		identyfRepo.saveAndFlush(identyf);
@@ -96,6 +107,12 @@ public class VisitorsController {
     public String visitorsView(Model model) {
         model.addAttribute("visitors", visitorRepo.findAll());
         return "secured/visitors-view";
+    }
+	
+	@GetMapping("/secured/identyf-view")
+    public String identyfView(Model model) {
+        model.addAttribute("identyficators", identyfRepo.findAll());
+        return "secured/identyf-view";
     }
 	
 	@GetMapping("/secured/signed-up-view")
@@ -154,5 +171,18 @@ public class VisitorsController {
 		identyfRepo.saveAndFlush(identyficator);
 		
 		return new ModelAndView("redirect:/secured/visitors-view");
+	}
+	
+	@RequestMapping(value="secured/files/{fileName}", method=RequestMethod.GET)
+	public void getFile(
+			@PathVariable("fileName") String filename,
+			HttpServletResponse response) throws IOException {
+		
+		ExcelGenerator excel = new ExcelGenerator();
+		
+		response.getOutputStream().write(excel.generate(
+				new String[] {"Nazwisko","Firma","Identyfikator","Wejście","Wyjście"}, visitorRepo.findAll()));
+		response.setContentType("application/vnd.ms-excel");
+		response.flushBuffer();
 	}
 }

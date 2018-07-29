@@ -9,7 +9,8 @@
 <div layout:fragment="content" th:remove="tag">
     <div class="container">
   <h1>Lista odwiedzaj¹cych</h1>
-  <p>Kompletny podgl¹d dostêpny dla admina</p>            
+  <a class="btn btn-info btn-md" 
+     th:href="@{/secured/files/ListaOdwiedzajacych.xls}"><b>Export do excela</b></a>          
   <table class="table table-striped">
     <thead>
       <tr>
