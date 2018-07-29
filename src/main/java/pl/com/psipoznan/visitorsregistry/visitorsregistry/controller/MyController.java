@@ -19,6 +19,11 @@ public class MyController {
 		return "index";
 	}
 	
+	@GetMapping("/secured/visitors-sign-up")
+	public String visitorSignUp() {
+		return "/secured/visitors-sign-up";
+	}
+	
 	@GetMapping("/secured")
     public String securedIndex() {
         return "secured/index";

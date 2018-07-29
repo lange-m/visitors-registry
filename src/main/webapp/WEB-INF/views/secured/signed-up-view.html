@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>Lista sta³ych bywalców</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+    <div class="container">
+  <h1>Lista sta³ych bywalców</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Login</th>
+        <th>Nazwisko</th>
+        <th>Firma</th>
+        <th>Ostatnia wizyta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="registeredVisitor : ${registeredVisitors}">
+        <td th:text="${registeredVisitor.login}">Login...</td>
+        <td th:text="${registeredVisitor.name}">Nazwisko...</td>
+        <td th:text="${registeredVisitor.company}">Firma...</td>
+        <td th:text="${{registeredVisitor.lastVisit}}">Ostatnia wizyta...</td>
+        <!-- <td>
+        	<a th:if="${visitor.ticket} != null" 
+        	   class="btn btn-danger btn-sm" 
+        	   th:href="@{/end-visit-by-admin/(identyf=${visitor.ticket})}"><b>X</b></a>
+      	</td> -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+</body>
+</html>

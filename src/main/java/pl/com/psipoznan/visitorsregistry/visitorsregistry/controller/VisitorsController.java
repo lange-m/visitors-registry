@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.model.Identyficator;
+import pl.com.psipoznan.visitorsregistry.visitorsregistry.model.RememberedVisitor;
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.model.Visitor;
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.repositories.IdentyficatorRepository;
+import pl.com.psipoznan.visitorsregistry.visitorsregistry.repositories.RememberedVisitorRepository;
 import pl.com.psipoznan.visitorsregistry.visitorsregistry.repositories.VisitorRepository;
 
 @Controller
@@ -27,6 +29,8 @@ public class VisitorsController {
 	private VisitorRepository visitorRepo;
 	@Autowired
 	private IdentyficatorRepository identyfRepo;
+	@Autowired
+	private RememberedVisitorRepository rememberedRepo;
 	
 	@GetMapping("/register")
 	public String register(Model model) {
@@ -34,10 +38,30 @@ public class VisitorsController {
 		return "visitor";
 	}
 	
-	@PostMapping("/saveVisitor")
-	public String registerSubmit(@ModelAttribute Visitor v, Model model) {
+	@PostMapping("/registerVisitor")
+	public String registerSubmit(@ModelAttribute RememberedVisitor rv, Model model) {
 		
-		Visitor visitor = new Visitor(v.getName(), v.getCompany());
+		rememberedRepo.saveAndFlush(rv);
+		
+		model.addAttribute("name", rv.getLogin() + " ( " + rv.getName() + " z " + rv.getCompany() + " )");
+		model.addAttribute("registered", true);
+		
+		return "secured/visitors-sign-up";
+	}
+	
+	@PostMapping("/saveVisitor")
+	public String saveSubmit(@ModelAttribute Visitor v, Model model) {
+		
+		Visitor visitor = null;
+		
+		if (v.getName().startsWith("#") && (v.getCompany() == null || v.getCompany().isEmpty())) {
+			RememberedVisitor rv = rememberedRepo.findByLogin(v.getName());
+			visitor = new Visitor(rv.getName(), rv.getCompany());
+			rv.setLastVisit(LocalDateTime.now());
+			rememberedRepo.saveAndFlush(rv);
+		} else {
+			visitor = new Visitor(v.getName(), v.getCompany());
+		}
 		
 		String like = "";
 		
@@ -54,8 +78,6 @@ public class VisitorsController {
 			like = "A%";
 		}
 		
-		System.out.println(like);
-		
 		Identyficator identyf = identyfRepo.findFirstByActiveAndDeletedAndKeyLike(false, false, like);
 		visitor.setTicket(identyf.getKey());
 		identyf.setActive(true);
@@ -71,9 +93,15 @@ public class VisitorsController {
 	}
 	
 	@GetMapping("/secured/visitors-view")
-    public String messages(Model model) {
+    public String visitorsView(Model model) {
         model.addAttribute("visitors", visitorRepo.findAll());
         return "secured/visitors-view";
+    }
+	
+	@GetMapping("/secured/signed-up-view")
+    public String signedUpView(Model model) {
+        model.addAttribute("registeredVisitors", rememberedRepo.findAll());
+        return "/secured/signed-up-view";
     }
 	
 	@GetMapping("/visitor-out")
