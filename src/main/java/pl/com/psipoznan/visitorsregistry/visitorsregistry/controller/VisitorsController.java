@@ -106,7 +106,7 @@ public class VisitorsController {
 		visitorRepo.saveAndFlush(visitor);
 		identyfRepo.saveAndFlush(identyficator);
 		
-		return "visitor";
+		return "index";
 	}
 	
 	@RequestMapping(value="/end-visit-by-admin")
